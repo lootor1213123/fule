@@ -1,0 +1,44 @@
+name: Build HTML to APK
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    - name: Install Cordova
+      run: npm install -g cordova
+
+    - name: Create Cordova Project
+      run: |
+        cordova create myApp com.example.musicapp MusicApp
+        cd myApp
+        cordova platform add android
+
+    - name: Copy Web Files to Cordova
+      run: |
+        # 将你的 index.html 和 mp3 复制到 cordova 的 www 目录下
+        cp index.html myApp/www/
+        cp 奶龙大笑.mp3 myApp/www/
+
+    - name: Build Android APK
+      run: |
+        cd myApp
+        cordova build android --debug
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: html-apk
+        path: myApp/platforms/android/app/build/outputs/apk/debug/app-debug.apk
