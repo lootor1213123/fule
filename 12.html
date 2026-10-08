@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奶龙播放器</title>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            text-align: center;
+            padding-top: 150px;
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            color: #333;
+        }
+        button {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>奶龙大笑运行中</h2>
+    <p>点击下方按钮控制播放</p>
+
+    <!-- 音频标签，loop代表循环播放 -->
+    <audio id="myAudio" src="奶龙大笑.mp3" loop></audio>
+
+    <br>
+    <button onclick="toggleSound()">播放 / 暂停</button>
+
+    <script>
+        var audio = document.getElementById('myAudio');
+
+        // 尝试自动播放（现代手机浏览器通常会拦截静音外的自动播放，所以加个按钮最稳妥）
+        window.onload = function() {
+            audio.play().catch(function() {
+                console.log("浏览器限制了自动播放，请点击按钮");
+            });
+        };
+
+        // 点击按钮切换播放状态
+        function toggleSound() {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+    </script>
+
+</body>
+</html>
